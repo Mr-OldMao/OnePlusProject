@@ -4,43 +4,85 @@
 		<meta charset="utf-8">
 		<title></title>
 		<style>
-			div > p{
-				position: absolute;
-				left: 100px;
-				top: 10px;
-				font-size: 12px;
-				display: none;
+			.context{
+				width: 600px;
+				   height: 400px;
+				   margin: auto;
+				   top: 0;
+				   left: 0;
+				   bottom: 0;
+				   right: 0;
+				   border: 1px solid blue;
+				   box-sizing: border-box;
 			}
+			
+			.div_username {
+			    width: 500px;
+			        height: 30px;
+			        margin: auto;
+			        top: 0;
+			        left: 0;
+			        bottom: 0;
+			        right: 0;
+			}
+			.div_userpwd {
+			    width: 500px;
+			        height: 30px;
+			        margin: auto;
+			        top: 0;
+			        left: 0;
+			        bottom: 0;
+			        right: 0;
+			}
+			
 		</style>
 	</head>
 	<body>
-		<div>
+		<div class="context"> <center><a>模拟登录</a></center>
+		<br>
+		<br>
+		<br>
+		<br>
+		<div class="div_username">
 			<center>
 				<span>用户名:</span>
 				<input type="text" id="username" value="" />
-				<p id="username_">请输入用户名！</p>
+				<span id="username_">请输入用户名！</span>
 			</center>
 		</div>
-
-		<div>
+		<br>
+		<br>
+		<div class="div_userpwd">
 			<center>
 				<span>密码:</span>
-				<input type="text" id="userpwd" value="" />
-				<p id="userpwd_">请输入密码！</p>
+				<input type="password" id="userpwd" value="" />
+				<span id="userpwd_">请输入密码！</span>
 			</center>
 		</div>
-
-		<div>
+		<br>
+		<br>
+		<div class="div_btn_login">
 			<center>
 				<input type="button" name="" id="login" value="登录" />
 			</center>
 		</div>
+		<center>
+			<span id="result"> </span>
+			<div id="box"></div>
+		</center>
+
 
 		<script>
 			var username = document.getElementById("username");
 			var userpwd = document.getElementById("userpwd");
 			var username_ = document.getElementById("username_");
 			var userpwd_ = document.getElementById("userpwd_");
+			var result = document.getElementById("result"); //用于显示登录结果
+			var box = document.getElementById("box"); //延时跳转页面
+
+			//默认提示输入用户名密码 隐藏状态
+			username_.style.display = "none";
+			userpwd_.style.display = "none";
 
 			//聚焦事件
 			username.onfocus = function() {
@@ -56,12 +98,14 @@
 
 			//失去焦点事件
 			username.onblur = function() {
+				result.innerHTML = "";
+				username_.style.display = "none";
+
 				var xhr = new XMLHttpRequest();
 				xhr.onreadystatechange = function() {
 					if (xhr.status == 200 && xhr.readyState == 4)
 						console.log(xhr.responseText)
-					
-					console.log(xhr.responseText)
+
 					if (xhr.responseText == 0) {
 						username_.innerHTML = "用户名已经被占用了！";
 						username_.style.color = "red"
@@ -75,7 +119,42 @@
 				xhr.open("GET", "/regusername?username=" + username.value, true);
 				xhr.send(null)
 			}
-		</script>
+			userpwd.onblur = function() {
+				result.innerHTML = "";
+				userpwd_.style.display = "none";
+			}
 
+			login.onclick = function() {
+				var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = function() {
+					//获取到后台的数据判定登录是否成功  0-成功  1-失败
+					if (xhr.responseText == "0") {
+						console.log("登录成功！")
+						result.innerHTML = "登录成功!";
+						result.style.color = "green"
+						//跳转页面逻辑 
+						var count = 5;
+						var speed = 1000;
+						setTimeout(go, speed);
+
+						function go() {
+							count--;
+							box.innerHTML = "<a href='http://www.baidu.com'>页面将在" + count + "秒后跳转页面</a>";
+							if (count <= 0) {
+								window.location.href = "http://www.baidu.com";
+							} else {
+								setTimeout(arguments.callee, speed); // 递归调用
+							}
+						}
+					} else if (xhr.responseText == "1") {
+						console.log("登录失败！")
+						result.innerHTML = "登录失败，请检查用户名或密码输入是否正确!!!";
+						result.style.color = "red"
+					}
+				}
+				xhr.open("GET", "/regusernameAndpwd?username=" + username.value + "&userpwd=" + userpwd.value, true);
+				xhr.send(null)
+			}
+		</script>
 	</body>
 </html>
