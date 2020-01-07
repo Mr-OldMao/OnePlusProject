@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		<p>测试~~~~</p>
+		
+		<script>
+			
+			var xhr = new XMLHttpRequest(); //创建一个ajax对象
+			//绑定ajax事件
+			xhr.onreadystatechange = function(){
+				if(xhr.status ==200 && xhr.readyState ==4)
+					console.log(xhr.responseText)
+			}
+			
+			xhr.open("GET","http://localhost:3001/getData",true);
+			xhr.send(null)
+			
+		</script>
+		
+	</body>
+</html>
