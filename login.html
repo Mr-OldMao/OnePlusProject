@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			div > p{
+				position: absolute;
+				left: 100px;
+				top: 10px;
+				font-size: 12px;
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div>
+			<center>
+				<span>用户名:</span>
+				<input type="text" id="username" value="" />
+				<p id="username_">请输入用户名！</p>
+			</center>
+		</div>
+
+		<div>
+			<center>
+				<span>密码:</span>
+				<input type="text" id="userpwd" value="" />
+				<p id="userpwd_">请输入密码！</p>
+			</center>
+		</div>
+
+		<div>
+			<center>
+				<input type="button" name="" id="login" value="登录" />
+			</center>
+		</div>
+
+		<script>
+			var username = document.getElementById("username");
+			var userpwd = document.getElementById("userpwd");
+			var username_ = document.getElementById("username_");
+			var userpwd_ = document.getElementById("userpwd_");
+
+			//聚焦事件
+			username.onfocus = function() {
+				username_.innerHTML = "请输入用户名";
+				username_.style.color = "blue";
+				username_.style.display = "block";
+			}
+			userpwd.onfocus = function() {
+				userpwd_.innerHTML = "请输入密码！";
+				userpwd_.style.color = "blue";
+				userpwd_.style.display = "block";
+			}
+
+			//失去焦点事件
+			username.onblur = function() {
+				var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = function() {
+					if (xhr.status == 200 && xhr.readyState == 4)
+						console.log(xhr.responseText)
+					
+					console.log(xhr.responseText)
+					if (xhr.responseText == 0) {
+						username_.innerHTML = "用户名已经被占用了！";
+						username_.style.color = "red"
+						username_.style.display = "block"
+					} else if (xhr.responseText == 1) {
+						username_.innerHTML = "该用户名可以使用";
+						username_.style.color = "green"
+						username_.style.display = "block"
+					}
+				}
+				xhr.open("GET", "/regusername?username=" + username.value, true);
+				xhr.send(null)
+			}
+		</script>
+
+	</body>
+</html>
