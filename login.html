@@ -38,7 +38,8 @@
 		</style>
 	</head>
 	<body>
-		<div class="context"> <center><a>模拟登录</a></center>
+		<img src="http://image.baidu.com/search/detail?ct=503316480&z=0&ipn=d&word=%E8%83%8C%E6%99%AF&step_word=&hs=0&pn=20&spn=0&di=33000&pi=0&rn=1&tn=baiduimagedetail&is=0%2C0&istype=0&ie=utf-8&oe=utf-8&in=&cl=2&lm=-1&st=undefined&cs=1436275122%2C2670591127&os=2302626935%2C957345478&simid=3419002284%2C522647640&adpicid=0&lpn=0&ln=1848&fr=&fmq=1578395153299_R&fm=&ic=undefined&s=undefined&hd=undefined&latest=undefined&copyright=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&ist=&jit=&cg=&bdtype=0&oriquery=&objurl=http%3A%2F%2Fimg.9ku.com%2Fpic%2Fqpic%2F66183.jpg&fromurl=ippr_z2C%24qAzdH3FAzdH3Fooo_z%26e3Blh7_z%26e3Bv54AzdH3F1twg2jAzdH3F8ab9nc_z%26e3Bip4&gsm=&rpstart=0&rpnum=0&islist=&querylist=&force=undefined" alt="some_text">
+		<div class="context"> <center><h2>模拟登录</h2></center>
 		<br>
 		<br>
 		<br>
@@ -71,7 +72,8 @@
 			<div id="box"></div>
 		</center>
 
-
+		<a href="http://localhost:3001/zhuce.html" title="跳转到注册界面" target="_blank">点击跳转到注册界面</a>
+		
 		<script>
 			var username = document.getElementById("username");
 			var userpwd = document.getElementById("userpwd");
@@ -116,7 +118,7 @@
 						username_.style.display = "block"
 					}
 				}
-				xhr.open("GET", "/regusername?username=" + username.value, true);
+				xhr.open("GET", "/CheckLogined?username=" + username.value, true);
 				xhr.send(null)
 			}
 			userpwd.onblur = function() {
@@ -132,6 +134,7 @@
 						console.log("登录成功！")
 						result.innerHTML = "登录成功!";
 						result.style.color = "green"
+						alert("登录成功~~~~~~~")
 						//跳转页面逻辑 
 						var count = 5;
 						var speed = 1000;
@@ -139,7 +142,7 @@
 
 						function go() {
 							count--;
-							box.innerHTML = "<a href='http://www.baidu.com'>页面将在" + count + "秒后跳转页面</a>";
+							box.innerHTML = "<a href='http://www.baidu.com'>页面将在" + count + "秒后跳转页面到达百度</a>";
 							if (count <= 0) {
 								window.location.href = "http://www.baidu.com";
 							} else {
@@ -152,7 +155,7 @@
 						result.style.color = "red"
 					}
 				}
-				xhr.open("GET", "/regusernameAndpwd?username=" + username.value + "&userpwd=" + userpwd.value, true);
+				xhr.open("GET", "/CheckLogin?username=" + username.value + "&userpwd=" + userpwd.value, true);
 				xhr.send(null)
 			}
 		</script>
