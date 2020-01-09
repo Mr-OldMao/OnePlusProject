@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>结账</title>
+	</head>
+	<body>
+		<input type="button" name="" id="tijiao" value="提交订单" />
+		<script type="text/javascript">
+			var pname;
+			var pprice;
+			var scount;
+			var sprice;
+			//接收服务器的数据
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					var darta = JSON.parse(xhr.responseText)
+					//shopcar_sid=darta.Sid
+					pname = darta.pname;
+					pprice = darta.pprice;
+					scount = darta.scount;
+					sprice = darta.sprice
+					console.log("结账商品名:" + pname);
+					console.log("购买个数：" + scount);
+					console.log("总价：" + sprice);
+				}
+			}
+			xhr.open("GET", "/ShopcarEnd", true);
+			xhr.send(null)
+			
+			//发送数据到服务器
+			tijiao.onclick = function() { //发送数据
+				var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = function() {
+					if (xhr.responseText == "-1") {
+						//未找到页面-- 跳转404
+					} else if (xhr.responseText != "-1") { 		//找到商品页
+						//提价订单成功
+					}
+				}
+				//发送数据写入数据库： 收货人 收获电话号  收获地址 商品名 购买数量 总价格
+				//xhr.open("GET", "/OrderEnd?----" +  , true);
+				xhr.send(null)
+			}
+			
+		</script>
+	</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>购物车</title>
+	</head>
+	<body>
+		<input type="button" name="" id="jiezhang" value="结账" />
+		<script type="text/javascript">
+			var shopcar_sid;
+			var pname;
+			var pprice;
+			var scount;
+			var sprice;
+			//接收服务器的数据
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					var darta = JSON.parse(xhr.responseText)
+					shopcar_sid=darta.Sid
+					pname = darta.pname;
+					pprice = darta.pprice;
+					scount = darta.scount;
+					sprice = darta.sprice
+					console.log("商品id:"+shopcar_sid);
+					console.log("商品名:" + pname);
+					console.log("购买个数：" + scount);
+					console.log("总价：" + sprice);
+				}
+			}
+			xhr.open("GET", "/ShopcarEnd", true);
+			xhr.send(null)
+
+			//发送数据到服务器
+			jiezhang.onclick = function() { //发送数据
+				var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = function() {
+					if (xhr.responseText == "-1") {
+						//未找到页面-- 跳转404
+					} else if (xhr.responseText != "-1") { //找到商品页
+						//跳转提交订单页面
+						console.log(xhr.responseText)
+						var path = "http://localhost:3001/Order.html"
+						window.location.href = path;
+					}
+				}
+				//发送数据： 订单号
+				xhr.open("GET", "/Order?shopcar_sid" + shopcar_sid.value , true);
+				xhr.send(null)
+			}
+		</script>
+	</body>
+</html>

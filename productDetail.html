@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>商品详情页</title>
+
+	</head>
+	<body>
+		商品名：<input type="text" name="" id="pname" value="" /> <br>
+		单价：<input type="text" name="" id="pprice" value="" /> <br>
+		商品图片链接：<input type="text" name="" id="pimg" value="" /> <br>
+		商品型号：<input type="text" name="" id="pvision" value="" /> <br>
+		商品剩余数量<input type="text" name="" id="pcount" value="" /> <br>
+		购买数量<input type="text" name="" id="scount" value="" /><br>
+		总价<input type="text" name="" id="sprice" value="" /><br>
+		<input type="button" name="" id="btn" value="传递数据给购物车" />
+
+		<script type="text/javascript">
+			var pname = document.getElementById("pname");
+			var pprice = document.getElementById("pprice");
+			var scount = document.getElementById("scount");
+			var sprice = document.getElementById("sprice");
+
+			//接收服务器的数据
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					var array = JSON.parse(xhr.responseText)
+					console.log(array.pname);
+					console.log(array.pprice);
+					console.log(array.pimg);
+					console.log(array.pvision);
+					console.log(array.pcount);
+
+					pname.value = array.pname;
+					pprice.value = array.pprice;
+					pimg.value = array.pimg;
+					pvision.value = array.pvision;
+					pcount.value = array.pcount;
+				}
+			}
+			xhr.open("GET", "/productDetail", true);
+			xhr.send(null)
+
+			//发送请求
+			btn.onclick = function() { //发送数据
+				sprice.value = pprice.value * scount.value;
+				var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = function() {
+					if (xhr.readyState == 4 && xhr.status == 200) {
+						if (xhr.responseText == "-1") {
+							//....
+						} else if (xhr.responseText != "-1") { //找到商品页
+							//跳转购物车页面
+							console.log(xhr.responseText)
+							var path = "http://localhost:3001/Shopcar.html"
+							window.location.href = path;
+						}
+					}
+				}
+				xhr.open("GET", "/Shopcar?pname=" + pname.value + "&pprice=" + pprice.value + "&scount=" + scount.value +
+					"&sprice=" + sprice.value, true);
+				xhr.send(null)
+			}
+		</script>
+	</body>
+</html>

@@ -43,147 +43,153 @@
 			        bottom: 0;
 			        right: 0;
 			}
+			.div_btn_zhuce {
+				
+			}
 		</style>
 	</head>
 	<body>
-		<div class="context"> <center><h2>模拟注册</h2></center>
-		<br>
-		<br>
-		<br>
-		<br>
-		<div class="div_username">
+		<div class="context">
 			<center>
-				<span>用户名:</span>
-				<input type="text" id="username" value="" />
-				<span id="username_">请输入用户名！</span>
+				<h2>模拟注册</h2>
 			</center>
-		</div>
-		<br>
-		<br>
-		<div class="div_userpwd">
+			<br>
+			<br>
+			<br>
+			<br>
+			<div class="div_username">
+				<center>
+					<span>用户名:</span>
+					<input type="text" id="username" value="" />
+					<span id="username_">请输入用户名！</span>
+				</center>
+			</div>
+			<br>
+			<br>
+			<div class="div_userpwd">
+				<center>
+					<span>密码:</span>
+					<input type="password" id="userpwd" value="" />
+					<span id="userpwd_">请输入密码！</span>
+				</center>
+			</div>
+			<br>
+			<br>
+			<div class="div_userpwd">
+				<center>
+					<span>手机号:</span>
+					<input type="text" id="userphone" value="" />
+					<span id="userphone_">请输入手机号！</span>
+				</center>
+			</div>
+			<br>
+			<br>
+			<div class="div_btn_zhuce">
+				<center>
+					<input type="button" name="" id="zhuce" value="		注册			" />
+				</center>
+			</div>
 			<center>
-				<span>密码:</span>
-				<input type="password" id="userpwd" value="" />
-				<span id="userpwd_">请输入密码！</span>
+				<span id="result"> </span>
+				<div id="box"></div>
 			</center>
-		</div>
-		<br>
-		<br>
-		<div class="div_userpwd">
-			<center>
-				<span>手机号:</span>
-				<input type="text" id="userphone" value="" />
-				<span id="userphone_">请输入手机号！</span>
-			</center>
-		</div>
-		<br>
-		<br>
-		<div class="div_btn_zhuce">
-			<center>
-				<input type="button" name="" id="zhuce" value="注册" />
-			</center>
-		</div>
-		<center>
-			<span id="result"> </span>
-			<div id="box"></div>
-		</center>
-		
-		<a href="http://localhost:3001/login.html" title="跳转到登录界面" target="_blank">点击跳转到登录界面</a>
-		
-		<script>
-			var username = document.getElementById("username");
-			var userpwd = document.getElementById("userpwd");
-			var userphone = document.getElementById("userphone");
-			var username_ = document.getElementById("username_");
-			var userpwd_ = document.getElementById("userpwd_");
-			var userphone_ = document.getElementById("userphone_");
-			var result = document.getElementById("result"); //用于显示登录结果
-			var box = document.getElementById("box"); //延时跳转页面
 
-			//默认提示输入用户名密码 隐藏状态
-			username_.style.display = "none";
-			userpwd_.style.display = "none";
-			userphone_.style.display = "none";
+			<a href="http://localhost:3001/login.html" title="跳转到登录界面" target="_blank">点击跳转到登录界面</a>
 
-			//聚焦事件
-			username.onfocus = function() {
-				username_.innerHTML = "请输入用户名";
-				username_.style.color = "blue";
-				username_.style.display = "block";
-			}
-			userpwd.onfocus = function() {
-				userpwd_.innerHTML = "请输入密码！";
-				userpwd_.style.color = "blue";
-				userpwd_.style.display = "block";
-			}
-			userphone.onfocus = function() {
-				userphone_.innerHTML = "请输入电话号！";
-				userphone_.style.color = "blue";
-				userphone_.style.display = "block";
-			}
+			<script>
+				var username = document.getElementById("username");
+				var userpwd = document.getElementById("userpwd");
+				var userphone = document.getElementById("userphone");
+				var username_ = document.getElementById("username_");
+				var userpwd_ = document.getElementById("userpwd_");
+				var userphone_ = document.getElementById("userphone_");
+				var result = document.getElementById("result"); //用于显示登录结果
+				var box = document.getElementById("box"); //延时跳转页面
 
-			//失去焦点事件
-			username.onblur = function() {
-				result.innerHTML = "";
+				//默认提示输入用户名密码 隐藏状态
 				username_.style.display = "none";
-				var xhr = new XMLHttpRequest();
-				xhr.onreadystatechange = function() {
-					if (xhr.status == 200 && xhr.readyState == 4)
-						console.log(xhr.responseText)
-					if (xhr.responseText == 0) {
-						username_.innerHTML = "用户名已经被注册了！";
-						username_.style.color = "red"
-						username_.style.display = "block"
-					} else if (xhr.responseText == 1) {
-						username_.innerHTML = "该用户名可以使用";
-						username_.style.color = "green"
-						username_.style.display = "block"
-					}
-				}
-				xhr.open("GET", "/CheckUsername?username=" + username.value , true);
-				xhr.send(null)
-			}
-			userpwd.onblur = function() {
-				result.innerHTML = "";
 				userpwd_.style.display = "none";
-			}
-			userphone.onblur = function() {
-				result.innerHTML = "";
-				userphone.style.display = "none";
-			}
-			
-			zhuce.onclick = function() {
-				var xhr = new XMLHttpRequest();
-				xhr.onreadystatechange = function() {
-					//获取到后台的数据判定登录是否成功  1-成功  0-失败
-					if (xhr.responseText == "1") {
-						result.innerHTML = "注册成功!";
-						result.style.color = "green"
-						alert("恭喜你，注册成功！！页面即将跳转至登录页面~")
-						//跳转页面逻辑 
-						var count = 5;
-						var speed = 1000;
-						setTimeout(go, speed);
-			
-						function go() {
-							count--;
-							box.innerHTML = "<a href='http://localhost:3001/login.html'>页面将在" + count + "秒后跳转页面</a>";
-							if (count <= 0) {
-								window.location.href = "http://localhost:3001/login.html";
-							} else {
-								setTimeout(arguments.callee, speed); // 递归调用
-							}
-						}
-					} else if (xhr.responseText == "0") {
-						console.log("注册失败！")
-						result.innerHTML = "注册失败，请重试!!!";
-						result.style.color = "red"
-					}
+				userphone_.style.display = "none";
+
+				//聚焦事件
+				username.onfocus = function() {
+					username_.innerHTML = "请输入用户名";
+					username_.style.color = "blue";
+					username_.style.display = "block";
 				}
-				xhr.open("GET", "/CheckZhuCe?username=" + username.value + "&userpwd=" + userpwd.value + "&userphone=" + userphone
-					.value, true);
-				xhr.send(null)
-			}
-		</script>
+				userpwd.onfocus = function() {
+					userpwd_.innerHTML = "请输入密码！";
+					userpwd_.style.color = "blue";
+					userpwd_.style.display = "block";
+				}
+				userphone.onfocus = function() {
+					userphone_.innerHTML = "请输入电话号！";
+					userphone_.style.color = "blue";
+					userphone_.style.display = "block";
+				}
+
+				//失去焦点事件
+				username.onblur = function() {
+					result.innerHTML = "";
+					username_.style.display = "none";
+					var xhr = new XMLHttpRequest();
+					xhr.onreadystatechange = function() {
+						if (xhr.status == 200 && xhr.readyState == 4)
+							console.log(xhr.responseText)
+						if (xhr.responseText == 0) {
+							username_.innerHTML = "用户名已经被注册了！";
+							username_.style.color = "red"
+							username_.style.display = "block"
+						} else if (xhr.responseText == 1) {
+							username_.innerHTML = "该用户名可以使用";
+							username_.style.color = "green"
+							username_.style.display = "block"
+						}
+					}
+					xhr.open("GET", "/CheckUsername?username=" + username.value, true);
+					xhr.send(null)
+				}
+				userpwd.onblur = function() {
+					result.innerHTML = "";
+					userpwd_.style.display = "none";
+				}
+				userphone.onblur = function() {
+					result.innerHTML = "";
+					userphone_.style.display = "none";
+				}
+
+				zhuce.onclick = function() {
+					var xhr = new XMLHttpRequest();
+					xhr.onreadystatechange = function() {
+						//获取到后台的数据判定登录是否成功  1-成功  0-失败
+						if (xhr.responseText == "1") {
+							result.innerHTML = "注册成功!";
+							result.style.color = "green"
+							alert("恭喜你，注册成功！！页面即将跳转至登录页面~")
+							//跳转页面逻辑 
+							var count = 5;
+							var speed = 1000;
+							setTimeout(go, speed);
+
+							function go() {
+								count--;
+								box.innerHTML = "<a href='http://localhost:3001/login.html'>页面将在" + count + "秒后跳转页面</a>";
+								if (count <= 0) {
+									window.location.href = "http://localhost:3001/login.html";
+								} else {
+									setTimeout(arguments.callee, speed); // 递归调用
+								}
+							}
+						} else if (xhr.responseText == "0") {
+							console.log("注册失败！")
+							result.innerHTML = "注册失败，请重试!!!";
+							result.style.color = "red"
+						}
+					}
+					xhr.open("GET", "/CheckZhuCe?username=" + username.value + "&userpwd=" + userpwd.value + "&userphone=" +
+						userphone.value, true);
+					xhr.send(null)
+				}
+			</script>
 	</body>
 </html>
